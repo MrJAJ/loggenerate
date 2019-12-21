@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property name="LOG_FILE" value="logs/"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <timestamp key="date" datePattern="yyyy-MM-dd"></timestamp>
+    <contextName>${date}</contextName>
+
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <file>${LOG_FILE}${date}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+        </rollingPolicy>
+    </appender>
+    <!-- 异步输出 -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 表示是否提取调用者数据,为了性能考虑就一直false下去吧 -->
+        <includeCallerData>false</includeCallerData>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="FILE"/>
+    </appender>
+    <!--<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">-->
+    <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+    <!--<level>WARN</level>-->
+    <!--</filter>-->
+    <!--<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">-->
+    <!--<dataSource class="org.apache.commons.dbcp.BasicDataSource">-->
+    <!--<driverClassName>com.mysql.jdbc.Driver</driverClassName>-->
+    <!--<url>jdbc:mysql://122.112.218.30:3306/ism-tcse?characterEncoding=UTF-8</url>-->
+    <!--<username>root</username>-->
+    <!--<password>PassW0rd@attiot</password>-->
+    <!--</dataSource>-->
+    <!--</connectionSource>-->
+    <!--</appender>-->
+    <root level="INFO">
+        <appender-ref ref="ASYNC"/>
+        <appender-ref ref="CONSOLE"/>
+        <!--<appender-ref ref="DB" />-->
+    </root>
+    <!--<logger name="org.springframework.web" level="INFO"/>-->
+    <!--<logger name="com.example" level="INFO">-->
+        <!--<appender-ref ref="ASYNC"/>-->
+        <!--&lt;!&ndash;<appender-ref ref="FILE"/>&ndash;&gt;-->
+    <!--</logger>-->
+    <!--<logger name="c.alibaba.druid.filter.stat.StatFilter" level="FATAL"/>-->
+
+
+    <!--&lt;!&ndash; show parameters for hibernate sql 专为 Hibernate 定制 &ndash;&gt;-->
+    <!--<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>-->
+    <!--<logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="DEBUG"/>-->
+    <!--<logger name="org.hibernate.SQL" level="DEBUG"/>-->
+    <!--<logger name="org.hibernate.engine.QueryParameters" level="DEBUG"/>-->
+    <!--<logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG"/>-->
+
+    <!--&lt;!&ndash;myibatis log configure&ndash;&gt;-->
+    <!--<logger name="com.apache.ibatis" level="TRACE"/>-->
+    <!--<logger name="java.sql.Connection" level="DEBUG"/>-->
+    <!--<logger name="java.sql.Statement" level="DEBUG"/>-->
+    <!--<logger name="java.sql.PreparedStatement" level="DEBUG"/>-->
+
+</configuration>
