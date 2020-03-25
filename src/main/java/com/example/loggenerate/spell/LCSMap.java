@@ -6,8 +6,8 @@ import java.util.List;
 
 public class LCSMap {
 	
-	protected List<LCSObject> LCSObjects = new ArrayList<LCSObject>();
-	protected int lineId = 0;
+	public List<LCSObject> LCSObjects = new ArrayList<LCSObject>();
+	public int lineId = 0;
 	
 	public LCSMap() {
 		

@@ -58,11 +58,17 @@ public class LCSObject {
 					temp = temp + "* ";
 				}
 				placeholder = true;
-				params.get(lineId).add(seq[lastMatch+1]);
 				continue;
 			}
 			for(int j = lastMatch + 1; j < seq.length; j++) {
 				if(LCSseq[i].equals(seq[j])) {
+					StringBuilder b=new StringBuilder();
+					for(int k=lastMatch+1;k<j;k++) {
+						b.append(seq[k]);
+					}
+					if(b.length()>0) {
+						params.get(lineId).add(b.toString());
+					}
 					placeholder = false;
 					temp = temp + LCSseq[i] + " ";
 					lastMatch = j;
@@ -73,7 +79,18 @@ public class LCSObject {
 				}
 			}
 		}
-		
+		if(lastMatch+1<seq.length){
+			if(!placeholder) {
+				temp = temp + "* ";
+			}
+			StringBuilder b=new StringBuilder();
+			for(int k=lastMatch+1;k<seq.length;k++) {
+				b.append(seq[k]);
+			}
+			if(b.length()>0) {
+				params.get(lineId).add(b.toString());
+			}
+		}
 		//Set sequence based of the common sequence found
 
         String oldSeq=LCSseq.toString();
@@ -99,7 +116,7 @@ public class LCSObject {
 			temp = temp + s + " ";
 		}
 		
-		temp = temp + "\t"+lineIds.size()+"\n";//"\n\t\t{";
+		temp = temp + "\t"+lineIds.size()+"\n\t参数列表:\n\t\t{";
 		for(int i : lineIds) {
 		    if(params.get(i).size()!=0){
                 temp = temp + params.get(i) + "\t";
@@ -107,7 +124,7 @@ public class LCSObject {
 
 		}
 		
-	//	return temp.substring(0, temp.length() - 2) + "}";
-        return temp;
+		return temp.substring(0, temp.length() - 2) + "}";
+        //return temp;
 	}
 }

@@ -59,7 +59,7 @@ public class LogService {
             FileInputStream file = new FileInputStream(fileName);
             reader = new BufferedReader(new InputStreamReader(file, "gbk"));
 
-            FileOutputStream outfile = new FileOutputStream("D:\\paper\\logs\\2019-12-09.log",true); // 相对路径，如果没有则要建立一个新的output。txt文件
+            FileOutputStream outfile = new FileOutputStream("D:\\paper\\logs\\2020-01-03.log",true); // 相对路径，如果没有则要建立一个新的output。txt文件
             out = new BufferedWriter(new OutputStreamWriter(outfile, "utf-8"));
 
             String tempString = null;
@@ -69,7 +69,7 @@ public class LogService {
             // 一次读入一行，直到读入null为文件结束
             while ((tempString = reader.readLine()) != null&&line<10) {
                 // 显示行号
-                if(tempString.equals("")){continue;}
+                if(tempString.equals("")||tempString.split(" ").length<1){continue;}
                 String s = tempString.split(" ")[0];
 
                 //log.append(tempString+"\n");
